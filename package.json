@@ -2,11 +2,41 @@
   "name": "learning-regexp-engine",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/dfareg.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "jest",
+    "format": "prettier --write \"lib/*.ts\""
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Shinsuke Noguchi <Shinsuke.Noguchi@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/test/**/*.test.ts"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
 }
