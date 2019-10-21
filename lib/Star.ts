@@ -10,7 +10,7 @@ export default class Star {
     const frag = fragOrig.newSkeleton();
     const s = context.newState();
 
-    for (let state of fragOrig.accepts) {
+    for (const state of fragOrig.accepts) {
       frag.connect(state, '', fragOrig.start);
     }
 

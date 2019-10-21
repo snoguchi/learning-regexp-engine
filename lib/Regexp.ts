@@ -10,7 +10,7 @@ type DFAState = Set<NFAState>;
 const nfa2dfa = (nfa: NondeterministicFiniteAutomaton): DeterministicFiniteAutomaton<DFAState> => {
   const transition: DFATransition<DFAState> = (set: DFAState, alpha: string) => {
     let ret: DFAState = new Set();
-    for (let elem of set) {
+    for (const elem of set) {
       ret = new Set([...ret, ...nfa.transition(elem, alpha)]);
     }
     return nfa.epsilonExpand(ret);

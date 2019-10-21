@@ -20,7 +20,7 @@ export default class NondeterministicFiniteAutomaton {
       // この状態は辿り終わったので、保存
       done.add(stat);
       // 辿って出て来た状態を、さらに空文字で辿るのに、キューに居れる
-      for (let nextStat of nexts) {
+      for (const nextStat of nexts) {
         // 辿り終わってない要素だけ
         if (!done.has(nextStat)) {
           que.add(nextStat);

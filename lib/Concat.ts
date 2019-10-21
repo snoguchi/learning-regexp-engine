@@ -10,7 +10,7 @@ export default class Concat implements Node {
     const frag2: NFAFragment = this.operand2.assemble(context);
     const frag: NFAFragment = frag1.__or__(frag2);
 
-    for (let state of frag1.accepts) {
+    for (const state of frag1.accepts) {
       frag.connect(state, '', frag2.start);
     }
 

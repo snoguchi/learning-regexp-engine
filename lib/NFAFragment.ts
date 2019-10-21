@@ -25,7 +25,7 @@ class NFAFragment {
 
   __or__(frag: NFAFragment): NFAFragment {
     const newFrag = this.newSkeleton();
-    for (let [k, v] of frag.map) {
+    for (const [k, v] of frag.map) {
       newFrag.map.set(k, new Set([...v]));
     }
     return newFrag;

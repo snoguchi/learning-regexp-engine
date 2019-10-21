@@ -16,7 +16,7 @@ export default class DFARuntime<DFAState> {
   }
 
   doesAccept(input: string): boolean {
-    for (let alphabet of input) {
+    for (const alphabet of input) {
       this.doTranstion(alphabet);
     }
     return this.isAcceptState();
