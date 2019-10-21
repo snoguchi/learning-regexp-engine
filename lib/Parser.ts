@@ -8,6 +8,7 @@ import Star from './Star';
 import Union from './Union';
 import Context from './Context';
 import Lexer from './Lexer';
+import NondeterministicFiniteAutomaton from './NondeterministicFiniteAutomaton';
 
 export default class Parser {
   private look: Token;
@@ -17,7 +18,7 @@ export default class Parser {
     this.move();
   }
 
-  match(tag: TokenKind) {
+  match(tag: TokenKind): void {
     if (this.look.kind !== tag) {
       // 予期せぬトークンが来たら、エラー終了
       throw new SyntaxError(`expected ${tag} but ${this.look.kind}`);
@@ -25,7 +26,7 @@ export default class Parser {
     this.move();
   }
 
-  move() {
+  move(): void {
     this.look = this.lexer.scan();
   }
 
@@ -34,7 +35,7 @@ export default class Parser {
     if (this.look.kind === TokenKind.LPAREN) {
       // factor -> '(' subexpr ')'
       this.match(TokenKind.LPAREN);
-      const node = this.subexpr();
+      const node: Node = this.subexpr();
       this.match(TokenKind.RPAREN);
       return node;
     } else {
@@ -94,8 +95,7 @@ export default class Parser {
   }
 
   // expression -> subexpr EOF
-  expression() {
-    console.log('expression');
+  expression(): NondeterministicFiniteAutomaton {
     // expression -> subexpr EOF
     const node = this.subexpr();
     this.match(TokenKind.EOF);

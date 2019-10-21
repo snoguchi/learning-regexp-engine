@@ -7,7 +7,7 @@ class NFAFragment {
   public accepts: Set<NFAState> = null;
   public map: Map<string, Set<NFAState>> = new Map();
 
-  connect(from: NFAState, char: string, to: NFAState) {
+  connect(from: NFAState, char: string, to: NFAState): void {
     const key = JSON.stringify([from, char]);
     let slot = this.map.get(key);
     if (!slot) {
@@ -16,7 +16,7 @@ class NFAFragment {
     slot.add(to);
   }
 
-  newSkeleton() {
+  newSkeleton(): NFAFragment {
     // コピーして返す
     const newFrag = new NFAFragment();
     newFrag.map = new Map([...this.map]);
@@ -31,7 +31,7 @@ class NFAFragment {
     return newFrag;
   }
 
-  build() {
+  build(): NondeterministicFiniteAutomaton {
     const transition: NFATransition = (state, char) => {
       const key = JSON.stringify([state, char]);
       return new Set(this.map.get(key));

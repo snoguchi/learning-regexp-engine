@@ -7,7 +7,7 @@ export default class Lexer {
     this.stringList = string_.split('');
   }
 
-  scan() {
+  scan(): Token {
     if (this.stringList.length === 0) {
       return new Token(null, TokenKind.EOF);
     }

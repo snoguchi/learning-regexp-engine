@@ -1,7 +1,7 @@
 import Regexp from './Regexp';
 
 export default {
-  compile(regexp: string) {
+  compile(regexp: string): Regexp {
     return new Regexp(regexp);
   }
 };

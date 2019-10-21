@@ -3,11 +3,12 @@ import DeterministicFiniteAutomaton, { DFATransition } from './DeterministicFini
 import NonDisjointSets from './NonDisjointSets';
 import Lexer from './Lexer';
 import Parser from './Parser';
+import DFARuntime from './DFARuntime';
 
 type DFAState = Set<NFAState>;
 
 const nfa2dfa = (nfa: NondeterministicFiniteAutomaton): DeterministicFiniteAutomaton<DFAState> => {
-  const transition: DFATransition<DFAState> = (set, alpha) => {
+  const transition: DFATransition<DFAState> = (set: DFAState, alpha: string) => {
     let ret: DFAState = new Set();
     for (let elem of set) {
       ret = new Set([...ret, ...nfa.transition(elem, alpha)]);
@@ -15,7 +16,7 @@ const nfa2dfa = (nfa: NondeterministicFiniteAutomaton): DeterministicFiniteAutom
     return nfa.epsilonExpand(ret);
   };
 
-  const start = nfa.epsilonExpand(new Set([nfa.start]));
+  const start: DFAState = nfa.epsilonExpand(new Set([nfa.start]));
 
   const accepts = new NonDisjointSets<NFAState>(nfa.accepts);
 
@@ -24,19 +25,20 @@ const nfa2dfa = (nfa: NondeterministicFiniteAutomaton): DeterministicFiniteAutom
 
 export default class Regexp {
   private dfa: DeterministicFiniteAutomaton<DFAState> = null;
+
   constructor(private regexp: string) {
     this.compile();
   }
 
-  private compile() {
+  private compile(): void {
     const lexer = new Lexer(this.regexp);
     const parser = new Parser(lexer);
-    const nfa = parser.expression();
+    const nfa: NondeterministicFiniteAutomaton = parser.expression();
     this.dfa = nfa2dfa(nfa);
   }
 
-  matches(str: string) {
-    const runtime = this.dfa.getRuntime();
+  matches(str: string): boolean {
+    const runtime: DFARuntime<DFAState> = this.dfa.getRuntime();
     return runtime.doesAccept(str);
   }
 }

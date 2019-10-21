@@ -1,7 +1,7 @@
 import { NFAState } from './NondeterministicFiniteAutomaton';
 
 export default class Context {
-  private stateCount: number = 0;
+  private stateCount = 0;
 
   newState(): NFAState {
     this.stateCount++;

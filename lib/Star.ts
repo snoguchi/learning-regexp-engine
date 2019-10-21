@@ -1,9 +1,11 @@
 import Context from './Context';
 import Node from './Node';
+import NFAFragment from './NFAFragment';
 
 export default class Star {
   constructor(private operand: Node) {}
-  assemble(context: Context) {
+
+  assemble(context: Context): NFAFragment {
     const fragOrig = this.operand.assemble(context);
     const frag = fragOrig.newSkeleton();
     const s = context.newState();
