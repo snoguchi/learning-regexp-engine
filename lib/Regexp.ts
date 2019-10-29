@@ -2,8 +2,11 @@ import NondeterministicFiniteAutomaton, { NFAState } from './NondeterministicFin
 import DeterministicFiniteAutomaton, { DFATransition } from './DeterministicFiniteAutomaton';
 import NonDisjointSets from './NonDisjointSets';
 import Lexer from './Lexer';
+import Context from './Context';
 import Parser from './Parser';
 import DFARuntime from './DFARuntime';
+import NFAFragment from './NFAFragment';
+import Node from './Node';
 
 type DFAState = Set<NFAState>;
 
@@ -24,7 +27,10 @@ const nfa2dfa = (nfa: NondeterministicFiniteAutomaton): DeterministicFiniteAutom
 };
 
 export default class Regexp {
-  private dfa: DeterministicFiniteAutomaton<DFAState> = null;
+  ast: Node = null;
+  nfaFragment: NFAFragment = null;
+  nfa: NondeterministicFiniteAutomaton = null;
+  dfa: DeterministicFiniteAutomaton<DFAState> = null;
 
   constructor(private regexp: string) {
     this.compile();
@@ -33,8 +39,10 @@ export default class Regexp {
   private compile(): void {
     const lexer = new Lexer(this.regexp);
     const parser = new Parser(lexer);
-    const nfa: NondeterministicFiniteAutomaton = parser.expression();
-    this.dfa = nfa2dfa(nfa);
+    this.ast = parser.expression();
+    this.nfaFragment = this.ast.assemble(new Context());
+    this.nfa = this.nfaFragment.build();
+    this.dfa = nfa2dfa(this.nfa);
   }
 
   matches(str: string): boolean {

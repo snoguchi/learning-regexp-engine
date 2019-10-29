@@ -6,9 +6,7 @@ import Character from './Character';
 import Concat from './Concat';
 import Star from './Star';
 import Union from './Union';
-import Context from './Context';
 import Lexer from './Lexer';
-import NondeterministicFiniteAutomaton from './NondeterministicFiniteAutomaton';
 
 export default class Parser {
   private look: Token;
@@ -40,7 +38,7 @@ export default class Parser {
       return node;
     } else {
       // factor -> CHARACTER
-      const node = new Character(this.look.value);
+      const node: Node = new Character(this.look.value);
       this.match(TokenKind.CHARACTER);
       return node;
     }
@@ -48,7 +46,7 @@ export default class Parser {
 
   // star -> factor '*' | factor
   star(): Node {
-    let node = this.factor();
+    let node: Node = this.factor();
     if (this.look.kind === TokenKind.OPE_STAR) {
       this.match(TokenKind.OPE_STAR);
       node = new Star(node);
@@ -69,10 +67,10 @@ export default class Parser {
 
   // subseq -> star subseq | star
   subseq(): Node {
-    const node1 = this.star();
+    const node1: Node = this.star();
     if (this.look.kind === TokenKind.LPAREN || this.look.kind === TokenKind.CHARACTER) {
       // subseq -> star subseq
-      const node2 = this.subseq();
+      const node2: Node = this.subseq();
       return new Concat(node1, node2);
     } else {
       // subseq -> star
@@ -82,11 +80,11 @@ export default class Parser {
 
   // subexpr -> seq '|' subexpr | seq
   subexpr(): Node {
-    const node1 = this.seq();
+    const node1: Node = this.seq();
     if (this.look.kind === TokenKind.OPE_UNION) {
       // subexpr -> seq '|' subexpr
       this.match(TokenKind.OPE_UNION);
-      const node2 = this.subexpr();
+      const node2: Node = this.subexpr();
       return new Union(node1, node2);
     } else {
       // subexpr -> seq
@@ -95,14 +93,10 @@ export default class Parser {
   }
 
   // expression -> subexpr EOF
-  expression(): NondeterministicFiniteAutomaton {
+  expression(): Node {
     // expression -> subexpr EOF
-    const node = this.subexpr();
+    const node: Node = this.subexpr();
     this.match(TokenKind.EOF);
-
-    // 構文木を実行し、NFAを作る
-    const context = new Context();
-    const fragment = node.assemble(context);
-    return fragment.build();
+    return node;
   }
 }

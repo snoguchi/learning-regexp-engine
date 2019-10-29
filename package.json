@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/dfareg.js",
+  "types": "dist/dfareg.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",

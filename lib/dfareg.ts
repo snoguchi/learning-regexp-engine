@@ -1,7 +1,9 @@
 import Regexp from './Regexp';
 
-export default {
+const dfareg = {
   compile(regexp: string): Regexp {
     return new Regexp(regexp);
   }
 };
+
+export default dfareg;
