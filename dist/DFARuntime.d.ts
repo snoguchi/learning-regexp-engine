@@ -1,7 +1,7 @@
 import DeterministicFiniteAutomaton from './DeterministicFiniteAutomaton';
 export default class DFARuntime<DFAState> {
     private dfa;
-    private curState;
+    curState: DFAState;
     constructor(dfa: DeterministicFiniteAutomaton<DFAState>);
     doTranstion(char: string): void;
     isAcceptState(): boolean;

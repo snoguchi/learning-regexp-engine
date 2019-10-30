@@ -1,7 +1,7 @@
 import DeterministicFiniteAutomaton from './DeterministicFiniteAutomaton';
 
 export default class DFARuntime<DFAState> {
-  private curState: DFAState;
+  curState: DFAState;
 
   constructor(private dfa: DeterministicFiniteAutomaton<DFAState>) {
     this.curState = dfa.start;
